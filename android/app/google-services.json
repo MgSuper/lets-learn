@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "552015572299",
+    "project_id": "lets-learn-b6005",
+    "storage_bucket": "lets-learn-b6005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552015572299:android:33ad51d5a10b5fe3530cce",
+        "android_client_info": {
+          "package_name": "com.slthiri.boost_e_skills"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmranU7I_f9cWeqni6J5Wis4cp-q_RICU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
