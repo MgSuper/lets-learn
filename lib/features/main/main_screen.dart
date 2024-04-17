@@ -34,7 +34,9 @@ class MainScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is NavTabChangeState) {
             if (state.selectedIndex == 3) {
-              settingsBloc.add(FetchUserDataEvent());
+              if (settingsBloc.state is! UserDataLoaded) {
+                settingsBloc.add(FetchUserDataEvent());
+              }
             }
             return BottomNavBar(
               pageIndex: state.selectedIndex,

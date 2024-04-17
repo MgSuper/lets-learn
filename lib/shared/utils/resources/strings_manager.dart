@@ -9,4 +9,5 @@ class AppString {
   static const userName = 'Username';
   static const myProfile = 'My Profile';
   static const letslearn = 'Let\'s Learn';
+  static const learnNewWord = 'Learn New Word';
 }

@@ -33,27 +33,58 @@ class Topics {
 
 class BasicLesson {
   final String id;
-  final String content;
+  final String? description;
+  final String? word; // Optional field for idiom
+  final String? usage; // Optional field for idiom usage
+  final String? pOne;
+  final String? pTwo;
 
   BasicLesson({
     required this.id,
-    required this.content,
+    this.description,
+    this.word,
+    this.usage,
+    this.pOne,
+    this.pTwo,
   });
 
   BasicLesson.fromJson(Map<String, dynamic> json, [String? documentId])
       : id = documentId ??
             '', // Provide a default value or generate an ID as needed
-        content = json['content'];
+        description = json['description'],
+        word = json['word'],
+        usage = json['usage'],
+        pOne = json['pOne'],
+        pTwo = json['pTwo'];
 
   BasicLesson.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot)
       : id = snapshot.id, // Assign the document ID
-        content = snapshot['content'];
+        description = snapshot.data()!.containsKey('description')
+            ? snapshot.data()!['description']
+            : null,
+        word = snapshot.data()!.containsKey('word')
+            ? snapshot.data()!['word']
+            : null,
+        usage = snapshot.data()!.containsKey('usage')
+            ? snapshot.data()!['usage']
+            : null,
+        pOne = snapshot.data()!.containsKey('pOne')
+            ? snapshot.data()!['pOne']
+            : null,
+        pTwo = snapshot.data()!.containsKey('pTwo')
+            ? snapshot.data()!['pTwo']
+            : null;
+  // content = snapshot.data()?['content'],
+  // front = snapshot.data()?['front'],
+  // back = snapshot.data()?['back'];
 
   Map<String, dynamic> toJson() {
-    return {
-      'content': content,
-      // Note: Typically, you don't need to include the ID in toJson,
-      // unless you're using it in a way that requires it.
-    };
+    final Map<String, dynamic> data = {};
+    if (description != null) data['description'] = description;
+    if (word != null) data['word'] = word;
+    if (usage != null) data['usage'] = usage;
+    if (pOne != null) data['pOne'] = pOne;
+    if (pTwo != null) data['pTwo'] = pTwo;
+    return data;
   }
 }

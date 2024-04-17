@@ -11,9 +11,9 @@ class HomeLoading extends HomeState {}
 class HomeLoaded extends HomeState {
   final Topics topics;
 
-  HomeLoaded(
-    this.topics,
-  );
+  HomeLoaded({
+    required this.topics,
+  });
 }
 
 class HomeLoadError extends HomeState {

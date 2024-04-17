@@ -17,7 +17,7 @@ class SettingsContents extends StatelessWidget {
   Widget build(BuildContext context) {
     final SettingsBloc settingsBloc = locator<SettingsBloc>();
     return Scaffold(
-      appBar: genericAppBar(AppString.myProfile),
+      appBar: genericAppBar(context, AppString.myProfile, false),
       body: SafeArea(
         child: SingleChildScrollView(
             child: Column(

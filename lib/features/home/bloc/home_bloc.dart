@@ -12,16 +12,16 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final FirebaseFirestore firestore = locator<FirebaseFirestore>();
-  Map<String, Topics> _cachedTopics = {};
+  final Map<String, Topics> _cachedTopics = {};
   HomeBloc() : super(HomeInitial()) {
-    on<LoadTopic>(_loadTopic);
-    on<RefreshTopic>(_refreshTopic);
+    on<TabChanged>(_tabChanges);
     // on<TabChanged>(_tabChanged);
   }
 
-  FutureOr<void> _loadTopic(LoadTopic event, Emitter<HomeState> emit) async {
+  FutureOr<void> _loadTopic(TabChanged event, Emitter<HomeState> emit) async {
     if (_cachedTopics.containsKey(event.topicName)) {
-      emit(HomeLoaded(_cachedTopics[event.topicName]!));
+      print('topic Name ${event.topicName}');
+      emit(HomeLoaded(topics: _cachedTopics[event.topicName]!));
     } else {
       emit(HomeLoading());
       try {
@@ -45,52 +45,46 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
         // Cache and emit the loaded state
         _cachedTopics[event.topicName] = topic;
-        emit(HomeLoaded(topic));
+        print('topic Name ${event.topicName}');
+        emit(HomeLoaded(topics: topic));
       } catch (e) {
         emit(HomeLoadError(e.toString()));
       }
     }
   }
 
-  FutureOr<void> _refreshTopic(
-      RefreshTopic event, Emitter<HomeState> emit) async {
-    emit(HomeLoading());
-    try {
-      // Fetch the main topic document
-      DocumentSnapshot<Map<String, dynamic>> topicSnapshot =
-          await firestore.collection('topics').doc(event.topicName).get();
-      Topics topic = Topics.fromSnapshot(topicSnapshot);
+  FutureOr<void> _tabChanges(TabChanged event, Emitter<HomeState> emit) async {
+    if (_cachedTopics.containsKey(event.topicName)) {
+      emit(HomeLoaded(topics: _cachedTopics[event.topicName]!));
+    } else {
+      emit(HomeLoading()); // Optional: to show loading indicator
+      final currentTopic =
+          state is HomeLoaded ? (state as HomeLoaded).topics : null;
+      if (event.topicName == currentTopic) return; // Prevent redundant updates
+      try {
+        DocumentSnapshot<Map<String, dynamic>> topicSnapshot =
+            await firestore.collection('topics').doc(event.topicName).get();
+        if (!topicSnapshot.exists) {
+          emit(HomeLoadError('No topic found for ${event.topicName}'));
+          return;
+        }
+        Topics topic = Topics.fromSnapshot(topicSnapshot);
 
-      // Fetch the basic lessons from the subcollection
-      var lessonsSnapshot = await firestore
-          .collection('topics')
-          .doc(event.topicName)
-          .collection('lessons')
-          .get();
-      var basicLessons = lessonsSnapshot.docs
-          .map((doc) => BasicLesson.fromSnapshot(doc))
-          .toList();
+        QuerySnapshot<Map<String, dynamic>> lessonsSnapshot = await firestore
+            .collection('topics')
+            .doc(event.topicName)
+            .collection('basic_lessons')
+            .get();
+        List<BasicLesson> basicLessons = lessonsSnapshot.docs
+            .map((doc) => BasicLesson.fromSnapshot(doc))
+            .toList();
 
-      // Update the topic object with the fetched lessons
-      topic.basicLesson = basicLessons;
-
-      // Update cache
-      _cachedTopics[event.topicName] = topic;
-
-      // Emit the loaded state with the refreshed data
-      emit(HomeLoaded(topic));
-    } catch (e) {
-      emit(HomeLoadError(e.toString()));
+        topic.basicLesson = basicLessons;
+        _cachedTopics[event.topicName] = topic;
+        emit(HomeLoaded(topics: topic));
+      } catch (e) {
+        emit(HomeLoadError('Failed to load data: ${e.toString()}'));
+      }
     }
   }
-
-  // FutureOr<void> _tabChanged(TabChanged event, Emitter<HomeState> emit) async {
-  //   // Assuming you have a method to fetch data based on the topic
-  // try {
-  //   final data = await _fetchDataForTopic(event.topic);
-  //   emit(HomeLoaded(data));
-  // } catch (error) {
-  //   emit(HomeLoadError(error.toString()));
-  // }
-  // }
 }

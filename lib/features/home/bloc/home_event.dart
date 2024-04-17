@@ -1,21 +1,16 @@
 part of 'home_bloc.dart';
 
 @immutable
-sealed class HomeEvent {}
-
-class LoadTopic extends HomeEvent {
-  final String topicName;
-
-  LoadTopic(this.topicName);
+sealed class HomeEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
-// class TabChanged extends HomeEvent {
-//   final String topic;
-//   TabChanged(this.topic);
-// }
-
-class RefreshTopic extends HomeEvent {
+class TabChanged extends HomeEvent {
   final String topicName;
 
-  RefreshTopic(this.topicName);
+  TabChanged(this.topicName);
+
+  @override
+  List<Object?> get props => [topicName];
 }

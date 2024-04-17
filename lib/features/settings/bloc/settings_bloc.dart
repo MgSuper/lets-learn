@@ -13,6 +13,7 @@ part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final UserRepository userRepository;
+  AppUserModel? _cachedUser;
   SettingsBloc({required this.userRepository}) : super(UserDataLoading()) {
     on<FetchUserDataEvent>(_fetchUserData);
     on<LogoutEvent>(_logoutEvent);
@@ -20,6 +21,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
   FutureOr<void> _fetchUserData(
       FetchUserDataEvent event, Emitter<SettingsState> emit) async {
+    if (_cachedUser != null) {
+      emit(UserDataLoaded(_cachedUser!));
+    }
     emit(UserDataLoading());
     final userId = locator<FirebaseAuth>().currentUser?.uid;
     print('userID   $userId');

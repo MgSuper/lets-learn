@@ -3,7 +3,8 @@ import 'package:boost_e_skills/shared/utils/resources/styles_manager.dart';
 import 'package:boost_e_skills/shared/utils/resources/value_manager.dart';
 import 'package:flutter/material.dart';
 
-PreferredSizeWidget genericAppBar(String title) {
+PreferredSizeWidget genericAppBar(
+    BuildContext context, String title, bool? isAction) {
   return AppBar(
     automaticallyImplyLeading: false,
     centerTitle: false,
@@ -16,5 +17,18 @@ PreferredSizeWidget genericAppBar(String title) {
     ),
     backgroundColor: Colors.transparent,
     elevation: AppSize.s0,
+    actions: isAction == true
+        ? [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+            ),
+          ]
+        : [],
   );
 }
