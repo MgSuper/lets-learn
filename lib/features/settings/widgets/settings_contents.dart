@@ -1,3 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:boost_e_skills/features/settings/widgets/setting_tile.dart';
+import 'package:flutter/material.dart';
+
 import 'package:boost_e_skills/features/auth/model/app_user_model.dart';
 import 'package:boost_e_skills/features/settings/bloc/settings_bloc.dart';
 import 'package:boost_e_skills/locator.dart';
@@ -7,7 +11,6 @@ import 'package:boost_e_skills/shared/utils/resources/strings_manager.dart';
 import 'package:boost_e_skills/shared/utils/resources/styles_manager.dart';
 import 'package:boost_e_skills/shared/utils/resources/value_manager.dart';
 import 'package:boost_e_skills/shared/widgets/generic_app_bar.dart';
-import 'package:flutter/material.dart';
 
 class SettingsContents extends StatelessWidget {
   final AppUserModel appUserModel;
@@ -55,6 +58,7 @@ class SettingsContents extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p14),
               child: Container(
                 decoration: BoxDecoration(
+                  color: ColorManager.white,
                   borderRadius: BorderRadius.circular(
                     AppPadding.p14,
                   ),
@@ -65,71 +69,22 @@ class SettingsContents extends StatelessWidget {
                       horizontal: 8.0, vertical: 8.0),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () async {},
-                            style: const ButtonStyle(
-                              padding: MaterialStatePropertyAll(
-                                EdgeInsets.all(0.0),
-                              ),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: Text(
-                              'About Me',
-                              style: getRegularStyle(
-                                  color: ColorManager.white,
-                                  fontSize: AppSize.s16),
-                            ),
-                          ),
-                        ],
+                      SettingTile(
+                        text: 'About Me',
+                        onTap: () {},
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () async {
-                              final shouldLogOut =
-                                  await showLogOutDialog(context);
-                              if (shouldLogOut) {
-                                settingsBloc.add(LogoutEvent());
-                              }
-                            },
-                            style: const ButtonStyle(
-                              padding: MaterialStatePropertyAll(
-                                EdgeInsets.all(0.0),
-                              ),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: Text(
-                              'Sign Out',
-                              style: getRegularStyle(
-                                  color: ColorManager.white,
-                                  fontSize: AppSize.s16),
-                            ),
-                          ),
-                        ],
+                      SettingTile(
+                        text: 'Sign Out',
+                        onTap: () async {
+                          final shouldLogOut = await showLogOutDialog(context);
+                          if (shouldLogOut) {
+                            settingsBloc.add(LogoutEvent());
+                          }
+                        },
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () async {},
-                            style: const ButtonStyle(
-                              padding: MaterialStatePropertyAll(
-                                EdgeInsets.all(0.0),
-                              ),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: Text(
-                              'Other settings',
-                              style: getRegularStyle(
-                                  color: ColorManager.white,
-                                  fontSize: AppSize.s16),
-                            ),
-                          ),
-                        ],
+                      SettingTile(
+                        text: 'Other Settings',
+                        onTap: () {},
                       ),
                     ],
                   ),

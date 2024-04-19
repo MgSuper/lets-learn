@@ -16,6 +16,11 @@ class HomeLoaded extends HomeState {
   });
 }
 
+class VocabCategoryLoaded extends HomeState {
+  final List<VocabCategory> categories;
+  VocabCategoryLoaded(this.categories);
+}
+
 class HomeLoadError extends HomeState {
   final String message;
 

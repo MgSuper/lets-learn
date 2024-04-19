@@ -24,7 +24,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (_cachedUser != null) {
       emit(UserDataLoaded(_cachedUser!));
     }
+    await Future.delayed(const Duration(milliseconds: 1000));
     emit(UserDataLoading());
+
     final userId = locator<FirebaseAuth>().currentUser?.uid;
     print('userID   $userId');
     if (userId == null) {

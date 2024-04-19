@@ -1,5 +1,7 @@
+import 'package:boost_e_skills/shared/utils/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTab extends HookWidget {
   final String label;
@@ -24,14 +26,14 @@ class CustomTab extends HookWidget {
     useEffect(() {
       if (isActive) {
         animationController.forward();
-        backgroundColor.value = Colors.blue;
-        textColor.value = Colors.yellow;
-        fontSize.value = 20.0;
+        backgroundColor.value = ColorManager.secondaryPrimary;
+        textColor.value = ColorManager.white;
+        fontSize.value = 16.0.sp;
       } else {
         animationController.reverse();
-        backgroundColor.value = Colors.grey;
+        backgroundColor.value = ColorManager.lightgrey;
         textColor.value = Colors.white;
-        fontSize.value = 16.0;
+        fontSize.value = 14.0.sp;
       }
       return null;
     }, [isActive]);
@@ -40,7 +42,7 @@ class CustomTab extends HookWidget {
       child: AnimatedBuilder(
         animation: animationController,
         builder: (context, child) => Container(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 16.0.w),
           decoration: BoxDecoration(
             color: backgroundColor.value,
             borderRadius: BorderRadius.circular(10.0),

@@ -1,13 +1,9 @@
-import 'package:boost_e_skills/features/auth/login/login_screen.dart';
 import 'package:boost_e_skills/features/settings/bloc/settings_bloc.dart';
+import 'package:boost_e_skills/features/settings/widgets/setting_shimmer.dart';
 import 'package:boost_e_skills/features/settings/widgets/settings_contents.dart';
 import 'package:boost_e_skills/shared/utils/dialogs/show_auth_error.dart';
 import 'package:boost_e_skills/shared/utils/loading/loading_screen.dart';
 import 'package:boost_e_skills/shared/utils/resources/color_manager.dart';
-import 'package:boost_e_skills/shared/utils/resources/strings_manager.dart';
-import 'package:boost_e_skills/shared/utils/resources/styles_manager.dart';
-import 'package:boost_e_skills/shared/utils/resources/value_manager.dart';
-import 'package:boost_e_skills/shared/widgets/generic_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,9 +39,8 @@ class SettingsScreen extends StatelessWidget {
       },
       buildWhen: (previous, current) => current is! SettingsActionState,
       builder: (context, state) {
-        print('stateee $state');
         if (state is UserDataLoading) {
-          return const Center(child: CircularProgressIndicator.adaptive());
+          return const SettingShimmer();
         }
         if (state is UserDataLoaded) {
           return SettingsContents(appUserModel: state.user);

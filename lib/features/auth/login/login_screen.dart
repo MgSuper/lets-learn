@@ -1,11 +1,10 @@
 import 'package:boost_e_skills/features/auth/login/bloc/login_bloc.dart';
-import 'package:boost_e_skills/locator.dart';
 import 'package:boost_e_skills/shared/utils/dialogs/show_auth_error.dart';
 import 'package:boost_e_skills/shared/utils/loading/loading_screen.dart';
 import 'package:boost_e_skills/shared/utils/resources/color_manager.dart';
 import 'package:boost_e_skills/shared/utils/resources/strings_manager.dart';
+import 'package:boost_e_skills/shared/utils/resources/validators.dart';
 import 'package:boost_e_skills/shared/utils/resources/value_manager.dart';
-import 'package:boost_e_skills/shared/widgets/auth_screen_content.dart';
 import 'package:boost_e_skills/shared/widgets/generic_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +22,7 @@ class LoginScreen extends HookWidget {
     final passwordController = useTextEditingController(
         // text: 'foobarbaz'.ifDebugging,
         );
+    final loginFormKey = GlobalKey<FormState>();
     useEffect(() {
       // Initialization code or side effects go here.
 
@@ -68,80 +68,96 @@ class LoginScreen extends HookWidget {
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    AppString.login,
-                    style: Theme.of(context).textTheme.displayMedium,
+            child: Form(
+              key: loginFormKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      AppString.login,
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: AppSize.s90,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GenericTextField(
-                      controller: nameController,
-                      hintText: AppString.userName,
-                      icon: const Icon(Icons.person),
-                      inputType: TextInputType.emailAddress,
-                    ),
-                    const SizedBox(
-                      height: AppSize.s20,
-                    ),
-                    GenericTextField(
-                      controller: passwordController,
-                      hintText: AppString.password,
-                      icon: const Icon(Icons.key),
-                      isPassword: true,
-                      obscuringChar: '◉',
-                    ),
-                    const SizedBox(height: AppSize.s36),
-                    TextButton(
-                      onPressed: () async {
-                        loginBloc.add(
-                          ClickedLoginButtonEvent(
-                              userName: nameController.text,
-                              password: passwordController.text),
-                        );
-                      },
-                      child: Text(
-                        AppString.login,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium!
-                            .copyWith(decoration: TextDecoration.underline),
+                  const SizedBox(
+                    height: AppSize.s90,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GenericTextField(
+                        controller: nameController,
+                        hintText: AppString.userName,
+                        icon: const Icon(Icons.person),
+                        inputType: TextInputType.emailAddress,
+                        validator: Validators.validateUserName,
                       ),
-                    ),
-                    const SizedBox(height: AppSize.s60),
-                    Text(
-                      AppString.noAccount,
-                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                            color: ColorManager.white,
-                            fontSize: AppSize.s14,
-                          ),
-                    ),
-                    const SizedBox(height: AppSize.s8),
-                    TextButton(
-                      onPressed: () {
-                        print('go reg');
-                        loginBloc.add(ClickedToNavigateRegisterEvent());
-                      },
-                      child: Text(
-                        AppString.registerHere,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium!
-                            .copyWith(decoration: TextDecoration.underline),
+                      const SizedBox(
+                        height: AppSize.s20,
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      GenericTextField(
+                        controller: passwordController,
+                        hintText: AppString.password,
+                        icon: const Icon(Icons.key),
+                        isPassword: true,
+                        obscuringChar: '◉',
+                        validator: Validators.validatePassword,
+                        // (p0) {
+                        //   if (p0!.isEmpty) {
+                        //     return 'Password can\'t be empty';
+                        //   } else if (p0.length < 6) {
+                        //     return 'Password can\'t less than 8 words';
+                        //   }
+                        //   return null;
+                        // },
+                      ),
+                      const SizedBox(height: AppSize.s36),
+                      TextButton(
+                        onPressed: () async {
+                          if (loginFormKey.currentState!.validate()) {
+                            loginBloc.add(
+                              ClickedLoginButtonEvent(
+                                  userName: nameController.text,
+                                  password: passwordController.text),
+                            );
+                          }
+                        },
+                        child: Text(
+                          AppString.login,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(decoration: TextDecoration.underline),
+                        ),
+                      ),
+                      const SizedBox(height: AppSize.s60),
+                      Text(
+                        AppString.noAccount,
+                        style:
+                            Theme.of(context).textTheme.labelMedium!.copyWith(
+                                  color: ColorManager.white,
+                                  fontSize: AppSize.s14,
+                                ),
+                      ),
+                      const SizedBox(height: AppSize.s8),
+                      TextButton(
+                        onPressed: () {
+                          print('go reg');
+                          loginBloc.add(ClickedToNavigateRegisterEvent());
+                        },
+                        child: Text(
+                          AppString.registerHere,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .copyWith(decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );

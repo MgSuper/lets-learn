@@ -1,3 +1,4 @@
+import 'package:boost_e_skills/shared/utils/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 
 class GenericTextField extends StatelessWidget {
@@ -29,7 +30,15 @@ class GenericTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: icon,
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: ColorManager.error, width: 1.0),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: ColorManager.error, width: 1.0),
+        ),
+        errorMaxLines: 3,
       ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: inputType,
       keyboardAppearance: Brightness.dark,
       obscureText: isPassword == true ? true : false,

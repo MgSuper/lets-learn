@@ -1,11 +1,10 @@
 import 'package:boost_e_skills/features/auth/register/bloc/register_bloc.dart';
-import 'package:boost_e_skills/locator.dart';
 import 'package:boost_e_skills/shared/utils/dialogs/show_auth_error.dart';
 import 'package:boost_e_skills/shared/utils/loading/loading_screen.dart';
 import 'package:boost_e_skills/shared/utils/resources/color_manager.dart';
 import 'package:boost_e_skills/shared/utils/resources/strings_manager.dart';
+import 'package:boost_e_skills/shared/utils/resources/validators.dart';
 import 'package:boost_e_skills/shared/utils/resources/value_manager.dart';
-import 'package:boost_e_skills/shared/widgets/auth_screen_content.dart';
 import 'package:boost_e_skills/shared/widgets/generic_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +22,7 @@ class RegisterScreen extends HookWidget {
     final passwordController = useTextEditingController(
         // text: 'foobarbaz'.ifDebugging,
         );
+    final registerFormKey = GlobalKey<FormState>();
 
     useEffect(() {
       // Initialization code or side effects go here.
@@ -90,7 +90,8 @@ class RegisterScreen extends HookWidget {
                       controller: nameController,
                       hintText: AppString.userName,
                       icon: const Icon(Icons.person),
-                      inputType: TextInputType.emailAddress,
+                      inputType: TextInputType.text,
+                      validator: Validators.validateUserName,
                     ),
                     const SizedBox(
                       height: AppSize.s20,
@@ -101,17 +102,19 @@ class RegisterScreen extends HookWidget {
                       icon: const Icon(Icons.key),
                       isPassword: true,
                       obscuringChar: '◉',
+                      validator: Validators.validatePassword,
                     ),
                     const SizedBox(height: AppSize.s36),
                     TextButton(
                       onPressed: () async {
-                        registerBloc.add(
-                          ClickedRegisterButtonEvent(
-                            userName: nameController.text,
-                            password: passwordController.text,
-                          ),
-                        );
-                        // appAuthBloc.add(const AppAuthEventLogOut());
+                        if (registerFormKey.currentState!.validate()) {
+                          registerBloc.add(
+                            ClickedRegisterButtonEvent(
+                              userName: nameController.text,
+                              password: passwordController.text,
+                            ),
+                          );
+                        }
                       },
                       child: Text(
                         AppString.register,

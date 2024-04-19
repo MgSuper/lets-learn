@@ -33,6 +33,32 @@ class HomeScreen extends HookWidget {
       return () => tabController.removeListener(onTabChanged);
     }, [tabController]);
 
+    // useEffect(() {
+    //   void onTabChanged() {
+    //     currentIndex.value = tabController.index;
+    //     if (tabController.indexIsChanging) {
+    //       String topicName =
+    //           ['grammar', 'vocabulary', 'idioms'][tabController.index];
+    //       homeBloc.add(TabChanged(topicName));
+    //     }
+    //   }
+
+    //   tabController.addListener(onTabChanged);
+
+    //   // This is crucial to ensure that we don't dispatch an event that's already been sent by the Bloc's constructor.
+    //   // However, if the tab controller's index doesn't change right after initialization (stays at initial index), we might still need to force an update.
+    //   if (!tabController.indexIsChanging) {
+    //     String initialTopic =
+    //         ['grammar', 'vocabulary', 'idioms'][tabController.index];
+    //     homeBloc.add(TabChanged(initialTopic));
+    //   }
+
+    //   return () => tabController.removeListener(onTabChanged);
+    // }, [
+    //   tabController,
+    //   homeBloc
+    // ]); // Assuming homeBloc doesn't change, it might not need to be in the dependencies
+
     return Scaffold(
       appBar: genericAppBar(context, AppString.letslearn, false),
       body: SafeArea(
@@ -56,10 +82,6 @@ class HomeScreen extends HookWidget {
                   child: TabBar(
                     controller: tabController,
                     padding: EdgeInsets.zero,
-                    indicator: const BoxDecoration(),
-                    labelPadding: const EdgeInsets.only(
-                      left: 20.0,
-                    ),
                     isScrollable: true,
                     tabs: [
                       CustomTab(

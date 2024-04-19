@@ -9,11 +9,11 @@ ThemeData getApplicationTheme() {
     // Main color of the app
     scaffoldBackgroundColor: ColorManager.primary,
     primaryColor: ColorManager.primary,
-    primaryColorLight: ColorManager.primaryOpacity70,
+    primaryColorLight: ColorManager.secondaryPrimary,
     primaryColorDark: ColorManager.darkPrimary,
     disabledColor: ColorManager.grey1,
     // ripple Color
-    splashColor: ColorManager.primaryOpacity70,
+    splashColor: ColorManager.secondaryPrimary,
     // Card view theme
     cardTheme: CardTheme(
       color: ColorManager.white,
@@ -23,7 +23,7 @@ ThemeData getApplicationTheme() {
     // App bar theme
     appBarTheme: AppBarTheme(
         elevation: AppSize.s4,
-        shadowColor: ColorManager.primaryOpacity70,
+        shadowColor: ColorManager.secondaryPrimary,
         titleTextStyle: getRegularStyle(
           color: ColorManager.primary,
           fontSize: FontSize.s24,
@@ -34,7 +34,7 @@ ThemeData getApplicationTheme() {
       shape: const StadiumBorder(),
       disabledColor: ColorManager.grey1,
       buttonColor: ColorManager.primary,
-      splashColor: ColorManager.primaryOpacity70,
+      splashColor: ColorManager.secondaryPrimary,
     ),
     // Elevated Button Theme
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -65,6 +65,12 @@ ThemeData getApplicationTheme() {
       bodySmall: getRegularStyle(color: ColorManager.grey1),
       bodyLarge: getRegularStyle(color: ColorManager.grey),
     ),
+    tabBarTheme: TabBarTheme(
+        indicator: const BoxDecoration(),
+        labelPadding: const EdgeInsets.only(
+          left: 20.0,
+        ),
+        labelColor: ColorManager.primary),
 
     // Input decoration theme (text form field)
     inputDecorationTheme: InputDecorationTheme(
@@ -106,10 +112,10 @@ ThemeData getApplicationTheme() {
       backgroundColor: Colors.red,
       elevation: AppSize.s0,
       selectedItemColor: ColorManager.primary,
-      unselectedItemColor: ColorManager.primaryOpacity70,
+      unselectedItemColor: ColorManager.secondaryPrimary,
       selectedLabelStyle: getRegularStyle(color: ColorManager.primary),
       unselectedLabelStyle: getRegularStyle(
-        color: ColorManager.primaryOpacity70,
+        color: ColorManager.secondaryPrimary,
       ),
     ),
   );

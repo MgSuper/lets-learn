@@ -1,3 +1,4 @@
+import 'package:boost_e_skills/shared/utils/resources/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -18,25 +19,33 @@ class IdiomCard extends HookWidget {
         direction: FlipDirection.HORIZONTAL, // default
         side: CardSide.FRONT,
         front: Card(
-          color: Colors.blue,
+          color: ColorManager.white,
           child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             alignment: Alignment.center,
             height: 200.h,
             child: Text(
               front,
-              style: const TextStyle(fontSize: 24, color: Colors.white),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: ColorManager.primary),
               textAlign: TextAlign.center,
             ),
           ),
         ),
         back: Card(
-          color: Colors.red,
+          color: ColorManager.cerulean,
           child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             alignment: Alignment.center,
             height: 200.h,
             child: Text(
               back,
-              style: const TextStyle(fontSize: 24, color: Colors.white),
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: ColorManager.white),
               textAlign: TextAlign.center,
             ),
           ),
