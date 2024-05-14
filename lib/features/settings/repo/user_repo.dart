@@ -1,4 +1,4 @@
-import 'package:boost_e_skills/features/auth/model/app_user_model.dart';
+import 'package:boost_e_skills/core/models/app_user_model.dart';
 import 'package:boost_e_skills/locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

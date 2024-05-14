@@ -11,5 +11,8 @@ class AppString {
   static const letslearn = 'Let\'s Learn';
   static const learnNewWord = 'Learn New Word';
   static const grammarAppTitle = 'Grammar';
+  static const ksharing = 'Knowledge Sharing';
   static const category = 'Learn by categories';
+  static const markAsLearned = 'Mark as learned';
+  static const myPortfolio = 'My Portfolio';
 }

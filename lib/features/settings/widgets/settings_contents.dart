@@ -2,7 +2,7 @@
 import 'package:boost_e_skills/features/settings/widgets/setting_tile.dart';
 import 'package:flutter/material.dart';
 
-import 'package:boost_e_skills/features/auth/model/app_user_model.dart';
+import 'package:boost_e_skills/core/models/app_user_model.dart';
 import 'package:boost_e_skills/features/settings/bloc/settings_bloc.dart';
 import 'package:boost_e_skills/locator.dart';
 import 'package:boost_e_skills/shared/utils/dialogs/logout_dialog.dart';
@@ -20,7 +20,7 @@ class SettingsContents extends StatelessWidget {
   Widget build(BuildContext context) {
     final SettingsBloc settingsBloc = locator<SettingsBloc>();
     return Scaffold(
-      appBar: genericAppBar(context, AppString.myProfile, false),
+      appBar: genericAppBar(context, AppString.myProfile, false, false),
       body: SafeArea(
         child: SingleChildScrollView(
             child: Column(
@@ -29,7 +29,9 @@ class SettingsContents extends StatelessWidget {
               minVerticalPadding: AppSize.s14,
               leading: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: ColorManager.white),
+                  border: Border.all(
+                    color: ColorManager.grey2.withOpacity(0.5),
+                  ),
                   borderRadius: BorderRadius.circular(50.0),
                 ),
                 child: Icon(
@@ -58,20 +60,25 @@ class SettingsContents extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p14),
               child: Container(
                 decoration: BoxDecoration(
-                  color: ColorManager.white,
+                  color: ColorManager.grey2.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(
                     AppPadding.p14,
                   ),
-                  border: Border.all(color: ColorManager.white),
+                  border:
+                      Border.all(color: ColorManager.grey2.withOpacity(0.5)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 8.0),
+                    horizontal: 8.0,
+                    vertical: 8.0,
+                  ),
                   child: Column(
                     children: [
                       SettingTile(
-                        text: 'About Me',
-                        onTap: () {},
+                        text: AppString.myPortfolio,
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/portfolio');
+                        },
                       ),
                       SettingTile(
                         text: 'Sign Out',

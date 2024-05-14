@@ -19,7 +19,7 @@ class IdiomCard extends HookWidget {
         direction: FlipDirection.HORIZONTAL, // default
         side: CardSide.FRONT,
         front: Card(
-          color: ColorManager.white,
+          color: ColorManager.malibu,
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             alignment: Alignment.center,
