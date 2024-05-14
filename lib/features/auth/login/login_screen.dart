@@ -36,7 +36,6 @@ class LoginScreen extends HookWidget {
       bloc: loginBloc,
       listenWhen: (previous, current) => current is LoginActionState,
       listener: (context, state) {
-        print('login stateeee $state');
         if (state.isLoading) {
           LoadingScreen.instance().show(
             context: context,
@@ -143,7 +142,6 @@ class LoginScreen extends HookWidget {
                       const SizedBox(height: AppSize.s8),
                       TextButton(
                         onPressed: () {
-                          print('go reg');
                           loginBloc.add(ClickedToNavigateRegisterEvent());
                         },
                         child: Text(

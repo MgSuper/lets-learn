@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:boost_e_skills/features/auth/model/app_user_model.dart';
+import 'package:boost_e_skills/core/models/app_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginRepo {

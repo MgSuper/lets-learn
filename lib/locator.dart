@@ -6,6 +6,14 @@ import 'package:boost_e_skills/features/auth/login/bloc/login_bloc.dart';
 import 'package:boost_e_skills/features/auth/login/repo/login_repo.dart';
 import 'package:boost_e_skills/features/auth/register/bloc/register_bloc.dart';
 import 'package:boost_e_skills/features/home/bloc/home_bloc.dart';
+import 'package:boost_e_skills/features/home/repo/home_repository.dart';
+import 'package:boost_e_skills/features/knowledge_content/bloc/knowledge_content_bloc.dart';
+import 'package:boost_e_skills/features/knowledge_content/repo/knowledge_content_repository.dart';
+import 'package:boost_e_skills/features/learn_grammar/bloc/grammar_bloc.dart';
+import 'package:boost_e_skills/features/learn_vocabulary/blocs/vocab_category/vocab_category_bloc.dart';
+import 'package:boost_e_skills/features/learn_vocabulary/blocs/vocabularies/vocabularies_bloc.dart';
+import 'package:boost_e_skills/features/learn_vocabulary/blocs/vocabulary/vocabulary_bloc.dart';
+import 'package:boost_e_skills/features/learn_vocabulary/repo/vocabulary_repository.dart';
 import 'package:boost_e_skills/features/main/bloc/main_screen_bloc.dart';
 import 'package:boost_e_skills/features/settings/bloc/settings_bloc.dart';
 import 'package:boost_e_skills/features/settings/repo/user_repo.dart';
@@ -49,7 +57,33 @@ void initializeDependencies() {
     () => HomeBloc(),
   );
 
+  locator.registerLazySingleton<GrammarBloc>(
+    () => GrammarBloc(
+        firestore: locator<FirebaseFirestore>(), homeBloc: locator<HomeBloc>()),
+  );
+
+  locator.registerLazySingleton<VocabCategoryBloc>(
+    () => VocabCategoryBloc(),
+  );
+
+  locator.registerLazySingleton<VocabularyBloc>(
+    () => VocabularyBloc(locator<VocabulariesBloc>()),
+  );
+
+  locator.registerLazySingleton<VocabulariesBloc>(
+    () => VocabulariesBloc(),
+  );
+
   locator.registerLazySingleton<UserRepository>(() => UserRepository());
+  locator.registerLazySingleton<HomeRepository>(() => HomeRepository());
+  locator.registerLazySingleton<VocabularyRepository>(
+      () => VocabularyRepository());
+
+  locator.registerLazySingleton<KnowledgeContentRepository>(() =>
+      KnowledgeContentRepository(firestore: locator<FirebaseFirestore>()));
+  locator.registerLazySingleton<KnowledgeContentBloc>(
+    () => KnowledgeContentBloc(locator<KnowledgeContentRepository>()),
+  );
 
   locator.registerLazySingleton<SettingsBloc>(
     () => SettingsBloc(userRepository: locator<UserRepository>()),

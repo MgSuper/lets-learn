@@ -1,6 +1,7 @@
 import 'package:boost_e_skills/features/home/bloc/home_bloc.dart';
 import 'package:boost_e_skills/features/home/widgets/animated_tab.dart';
 import 'package:boost_e_skills/features/home/widgets/custom_tab.dart';
+import 'package:boost_e_skills/features/learn_vocabulary/blocs/vocab_category/vocab_category_bloc.dart';
 import 'package:boost_e_skills/locator.dart';
 import 'package:boost_e_skills/shared/utils/resources/strings_manager.dart';
 import 'package:boost_e_skills/shared/widgets/generic_app_bar.dart';
@@ -15,7 +16,9 @@ class HomeScreen extends HookWidget {
   Widget build(BuildContext context) {
     final tabController = useTabController(initialLength: 3);
     final homeBloc = locator<HomeBloc>();
+    final vocabCategoryBloc = locator<VocabCategoryBloc>();
     final currentIndex = useState(0);
+
     // Add listener to rebuild the widget when the tab changes
     useEffect(() {
       void onTabChanged() {
@@ -23,44 +26,25 @@ class HomeScreen extends HookWidget {
         if (tabController.indexIsChanging) {
           String topicName =
               ['grammar', 'vocabulary', 'idioms'][tabController.index];
-          homeBloc.add(TabChanged(topicName));
+          if (topicName == 'vocabulary') {
+            vocabCategoryBloc.add(FetchVocabCategories());
+          } else {
+            homeBloc.add(TabChanged(topicName));
+          }
         }
       }
 
       tabController.addListener(onTabChanged);
       onTabChanged();
-      homeBloc.add(TabChanged('grammar'));
+      if (currentIndex.value == 0) {
+        homeBloc.add(TabChanged('grammar'));
+      } else if (currentIndex.value == 2) {
+        homeBloc.add(TabChanged('idioms'));
+      }
       return () => tabController.removeListener(onTabChanged);
     }, [tabController]);
-
-    // useEffect(() {
-    //   void onTabChanged() {
-    //     currentIndex.value = tabController.index;
-    //     if (tabController.indexIsChanging) {
-    //       String topicName =
-    //           ['grammar', 'vocabulary', 'idioms'][tabController.index];
-    //       homeBloc.add(TabChanged(topicName));
-    //     }
-    //   }
-
-    //   tabController.addListener(onTabChanged);
-
-    //   // This is crucial to ensure that we don't dispatch an event that's already been sent by the Bloc's constructor.
-    //   // However, if the tab controller's index doesn't change right after initialization (stays at initial index), we might still need to force an update.
-    //   if (!tabController.indexIsChanging) {
-    //     String initialTopic =
-    //         ['grammar', 'vocabulary', 'idioms'][tabController.index];
-    //     homeBloc.add(TabChanged(initialTopic));
-    //   }
-
-    //   return () => tabController.removeListener(onTabChanged);
-    // }, [
-    //   tabController,
-    //   homeBloc
-    // ]); // Assuming homeBloc doesn't change, it might not need to be in the dependencies
-
     return Scaffold(
-      appBar: genericAppBar(context, AppString.letslearn, false),
+      appBar: genericAppBar(context, AppString.letslearn, false, false),
       body: SafeArea(
         child: SizedBox(
           height: 812.h,
@@ -71,7 +55,9 @@ class HomeScreen extends HookWidget {
                 controller: tabController,
                 children: <Widget>[
                   AnimatedTab(topic: 'grammar', homeBloc: homeBloc),
-                  AnimatedTab(topic: 'vocabulary', homeBloc: homeBloc),
+                  AnimatedTab(
+                      topic: 'vocabulary',
+                      vocabCategoryBloc: vocabCategoryBloc),
                   AnimatedTab(topic: 'idioms', homeBloc: homeBloc),
                 ],
               ),

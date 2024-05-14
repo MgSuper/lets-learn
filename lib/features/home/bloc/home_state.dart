@@ -10,15 +10,12 @@ class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
   final Topics topics;
+  final List<LessonProgress> progress;
 
   HomeLoaded({
     required this.topics,
+    required this.progress,
   });
-}
-
-class VocabCategoryLoaded extends HomeState {
-  final List<VocabCategory> categories;
-  VocabCategoryLoaded(this.categories);
 }
 
 class HomeLoadError extends HomeState {

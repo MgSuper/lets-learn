@@ -1,7 +1,7 @@
 import 'package:boost_e_skills/features/home/home_screen.dart';
 import 'package:boost_e_skills/features/main/bloc/main_screen_bloc.dart';
 import 'package:boost_e_skills/features/noti/noti_screen.dart';
-import 'package:boost_e_skills/features/result/result_screen.dart';
+import 'package:boost_e_skills/features/knowledge_content/knowledge_content.dart';
 import 'package:boost_e_skills/features/settings/bloc/settings_bloc.dart';
 import 'package:boost_e_skills/features/settings/settings_screen.dart';
 import 'package:boost_e_skills/locator.dart';
@@ -16,7 +16,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> pageList = [
       const HomeScreen(),
-      const ResultScreen(),
+      const KnowledgeContent(),
       const NotiScreen(),
       const SettingsScreen(),
     ];

@@ -29,7 +29,7 @@ class SettingTile extends StatelessWidget {
           child: Text(
             text,
             style: getRegularStyle(
-                color: ColorManager.primary, fontSize: AppSize.s16),
+                color: ColorManager.white, fontSize: AppSize.s16),
           ),
         ),
       ],

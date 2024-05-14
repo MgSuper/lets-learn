@@ -44,8 +44,8 @@ class BottomNavBar extends StatelessWidget {
                 onTap: () =>
                     mainScreenBloc.add(NavigationTabChanged(tabIndex: 1)),
                 icon: pageIndex == 1
-                    ? CommunityMaterialIcons.heart
-                    : CommunityMaterialIcons.heart_outline,
+                    ? CommunityMaterialIcons.newspaper_variant
+                    : CommunityMaterialIcons.newspaper_variant_outline,
               ),
               BottomNavWidget(
                 onTap: () =>

@@ -12,7 +12,7 @@ class SettingShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: genericAppBar(context, AppString.myProfile, false),
+      appBar: genericAppBar(context, AppString.myProfile, false, false),
       body: SafeArea(
         child: SingleChildScrollView(
             child: Column(
